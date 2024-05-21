@@ -58,6 +58,7 @@ $route['login']['post'] = 'UserController/checkLogin';
 $route['logout']['get'] = 'DashboardController/logout';
 
 $route['dashboard']['get'] = 'DashboardController';
+$route['insertInventory']['post'] = 'DashboardController/insertInventory';
 
 $route['branch']['get'] = 'BranchController';
 $route['loadBranch']['get'] = 'BranchController/loadBranch';

@@ -29,40 +29,40 @@ class DeviceController extends CI_Controller
             $start_index = $perPage * ($page - 1);
         }
         // Cấu hình phân trang
-            $config['enable_query_strings'] = true;
-            $config['use_page_numbers'] = true;
-            $config['page_query_string'] = true;
-            $config['query_string_segment'] = 'page';
-            $config['reuse_query_string'] = true;
-            $config['base_url'] = base_url('device');
-            $config['total_rows'] = $this->DeviceModel->countTotal();
-            $config['per_page'] = $perPage;
-            $config['full_tag_open'] = '<ul class="pagination">';
-            $config['full_tag_close'] = '</ul>';
-            $config['first_link'] = 'First';
-            $config['last_link'] = 'Last';
-            $config['first_tag_open'] = '<li class="page-item"><span class="page-link">';
-            $config['first_tag_close'] = '</span></li>';
-            $config['next_tag_open'] = '<li class="page-item"><span class="page-link">';
-            $config['next_tag_close'] = '</span></li>';
-            $config['last_tag_open'] = '<li class="page-item"><span class="page-link">';
-            $config['last_tag_close'] = '</span></li>';
-            $config['next_link'] = 'Next';
-            $config['prev_link'] = 'Prev';
-            $config['prev_tag_open'] = '<li class="page-item"><span class="page-link">';
-            $config['prev_tag_close'] = '</span></li>';
-            $config['cur_tag_open'] = '<li class="page-item active"><span class="page-link">';
-            $config['cur_tag_close'] = '</span></li>';
-            $config['num_tag_open'] = '<li class="page-item"><span class="page-link">';
-            $config['num_tag_close'] = '</span></li>';
+        $config['enable_query_strings'] = true;
+        $config['use_page_numbers'] = true;
+        $config['page_query_string'] = true;
+        $config['query_string_segment'] = 'page';
+        $config['reuse_query_string'] = true;
+        $config['base_url'] = base_url('device');
+        $config['total_rows'] = $this->DeviceModel->countTotal();
+        $config['per_page'] = $perPage;
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul>';
+        $config['first_link'] = 'First';
+        $config['last_link'] = 'Last';
+        $config['first_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['first_tag_close'] = '</span></li>';
+        $config['next_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['next_tag_close'] = '</span></li>';
+        $config['last_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['last_tag_close'] = '</span></li>';
+        $config['next_link'] = 'Next';
+        $config['prev_link'] = 'Prev';
+        $config['prev_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['prev_tag_close'] = '</span></li>';
+        $config['cur_tag_open'] = '<li class="page-item active"><span class="page-link">';
+        $config['cur_tag_close'] = '</span></li>';
+        $config['num_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['num_tag_close'] = '</span></li>';
 
-        $this->pagination->initialize($config); 
+        $this->pagination->initialize($config);
 
-        if($this->input->get('search')!=NULL) // nếu nhập ký tự tìm kiếm 
-        {   
-            $search_text=$this->input->get('search');
-            $data['results']=$this->DeviceModel->getSearchDevice($perPage, $start_index, $search_text);
-        }else{ // load trang bình thường không tìm kiếm
+        if ($this->input->get('search') != NULL) // nếu nhập ký tự tìm kiếm 
+        {
+            $search_text = $this->input->get('search');
+            $data['results'] = $this->DeviceModel->getSearchDevice($perPage, $start_index, $search_text);
+        } else { // load trang bình thường không tìm kiếm
             $data['results'] = $this->DeviceModel->getDevice($config['per_page'], $start_index);
         }
         $data['links'] = $this->pagination->create_links();
@@ -73,34 +73,36 @@ class DeviceController extends CI_Controller
     }
     public function loadDevice()
     {
-        $data['allData'] = $this->DeviceModel->getDevice(5,0);
+        $data['allData'] = $this->DeviceModel->getDevice(5, 0);
         if ($data['allData'] != FALSE) {
             echo json_encode(array("status" => true, "data" => $data['allData']));
         }
     }
     public function insertDevice()
     {
-        $this->form_validation->set_rules('name', 'Device Name', 'required');
-        $this->form_validation->set_rules('type', 'Device Type', 'required');
-        $this->form_validation->set_rules('description', 'Description', 'required');
-        $this->form_validation->set_rules('date_buy', 'Date of Purchase', 'required');
-        $this->form_validation->set_rules('active', 'Active', 'required');
+        if ($this->input->method() === 'post') {
+            $this->form_validation->set_rules('name', 'Device Name', 'required');
+            $this->form_validation->set_rules('type', 'Device Type', 'required');
+            $this->form_validation->set_rules('description', 'Description', 'required');
+            $this->form_validation->set_rules('date_buy', 'Date of Purchase', 'required');
+            $this->form_validation->set_rules('active', 'Active', 'required');
 
-        if ($this->form_validation->run() == TRUE) {
-            $data = array(
-                'name' => $this->input->post('name'),
-                'type' => $this->input->post('type'),
-                'description' => $this->input->post('description'),
-                'date_buy' => $this->input->post('date_buy'),
-                'active' => $this->input->post('active')
-            );
-            if ($this->DeviceModel->insertDevice($data)) {
-                echo json_encode(array("status" => true, "message" => "Thêm thiết bị mới thành công!"));
+            if ($this->form_validation->run() == TRUE) {
+                $data = array(
+                    'name' => $this->input->post('name'),
+                    'type' => $this->input->post('type'),
+                    'description' => $this->input->post('description'),
+                    'date_buy' => $this->input->post('date_buy'),
+                    'active' => $this->input->post('active')
+                );
+                if ($this->DeviceModel->insertDevice($data)) {
+                    echo json_encode(array("status" => true, "message" => "Thêm thiết bị mới thành công!"));
+                } else {
+                    echo json_encode(array("status" => false, "message" => "Thêm thiết bị thất bại!"));
+                }
             } else {
-                echo json_encode(array("status" => false, "message" => "Thêm thiết bị thất bại!"));
+                echo json_encode(array("status" => false, "message" => validation_errors()));
             }
-        } else {
-            echo json_encode(array("status" => false, "message" => validation_errors()));
         }
     }
     public function updateDevice()

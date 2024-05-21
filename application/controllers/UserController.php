@@ -35,6 +35,7 @@ class UserController extends CI_Controller {
 				$status= $this->UserModel->checkLogin($data);
 				if ($status) {
 					$session_data=array(
+						'id' => $status['id'],
 						'username'=> $status['name'],
 						'email'=> $status['email']
 					);
