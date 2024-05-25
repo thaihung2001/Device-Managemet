@@ -18,6 +18,7 @@ class InventoryModel  extends CI_Model
 
         //thêm mới vào bảng inventory_history
         $this->db->insert('inventory_history', $data_inventory_history);
+
         // Kiểm tra sự tồn tại của device_id và branch_id trong bảng inventory
         $this->db->select('*');
         $this->db->from('inventory');
@@ -25,6 +26,9 @@ class InventoryModel  extends CI_Model
         $this->db->where('branch_id', $data_inventory_history['branch_id_recieve']);
         $isset = $this->db->get();
         if ($isset->num_rows() > 0) {
+            //khóa hàng
+            $this->db->query("SELECT * FROM inventory WHERE device_id = ? AND branch_id = ? FOR UPDATE", array($data_inventory_history['device_id'], $data_inventory_history['branch_id_recieve']));
+            //sleep(30);
             // Cập nhật dữ liệu bảng inventory
             $this->db->set('quantity', 'quantity + ' . (int) $data_inventory_history['quantity'], FALSE);
             $this->db->where('device_id', $data_inventory_history['device_id']);
@@ -72,6 +76,10 @@ class InventoryModel  extends CI_Model
             //thêm mới vào bảng inventory_history
             $this->db->insert('inventory_history', $data_import_export);
 
+            //khóa hàng update số lượng gửi 
+            $this->db->query("SELECT * FROM inventory WHERE device_id = ? AND branch_id = ? FOR UPDATE", array($data_import_export['device_id'], $data_import_export['branch_id_send']));
+            //sleep(5);
+
             //trừ số lượng  nơi gửi
             $this->db->set('quantity', 'quantity - ' . (int) $data_import_export['quantity'], FALSE);
             $this->db->where('device_id', $data_import_export['device_id']);
@@ -85,6 +93,9 @@ class InventoryModel  extends CI_Model
             $this->db->where('branch_id', $data_import_export['branch_id_recieve']);
             $isset = $this->db->get();
             if ($isset->num_rows() > 0) {
+                //khóa hàng update số lượng nhận
+                $this->db->query("SELECT * FROM inventory WHERE device_id = ? AND branch_id = ? FOR UPDATE", array($data_import_export['device_id'], $data_import_export['branch_id_recieve']));
+
                 //cộng số lượng nơi nhận
                 $this->db->set('quantity', 'quantity + ' . (int) $data_import_export['quantity'], FALSE);
                 $this->db->where('device_id', $data_import_export['device_id']);

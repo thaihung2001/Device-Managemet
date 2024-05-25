@@ -438,7 +438,7 @@
         dataType: 'json',
         data: formData,
         success: function(response) {
-          console.log(response);return;
+          //console.log(response);return;
           if (response.status) {
             alert(response.message);
             $('#formGrant')[0].reset();
