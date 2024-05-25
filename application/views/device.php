@@ -34,68 +34,24 @@
 
     <div class="col-sm-9">
       <div class="well">
-        <form id="deviceForm">
-          <div class="row form-row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="deviceName">Tên thiết bị</label>
-                <input type="text" class="form-control" id="deviceName" name="name" placeholder="Tên thiết bị mới" required>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="deviceType">Phân loại</label>
-                <select class="form-control" id="deviceType" name="type" required>
-                  <option value="">Chọn loại thiết bị</option>
-                  <option value="screen">Màn hình</option>
-                  <option value="cpu">CPU</option>
-                  <option value="mouse">Chuột</option>
-                  <option value="keyboard">Bàn phím</option>
-                  <option value="switch">Switch mạng</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="row form-row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="deviceDescription">Mô tả</label>
-                <textarea class="form-control" row="1" name="description" id="deviceDescription" placeholder="Mô tả thiết bị mới" required></textarea>
-              </div>
-            </div>
-            <div class="col-sm-3">
-              <div class="form-group">
-                <label for="deviceDateBuy">Ngày mua thiết bị</label>
-                <input type="date" class="form-control" id="deviceDateBuy" name="date_buy" required>
-              </div>
-            </div>
-            <div class="col-sm-3">
-              <div class="form-group">
-                <label for="deviceActive">Trạng thái</label>
-                <select class="form-control" id="deviceActive" name="active" required>
-                  <option value="1">Đang hoạt động</option>
-                  <option value="0">Không hoạt động</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <button type="submit" class="btn btn-primary" id="btn-submit">Thêm mới</button>
-        </form>
       </div>
       <div class="well">
         <div class="row">
-          <div class="col-sm-6">
+          <div class="col-sm-5">
             <h4>Danh sách các thiết bị</h4>
-          </div>
-          <div class="col-sm-1">
           </div>
           <div class="col-sm-5">
             <form class="navbar-form navbar-left" id="formSearch" style="margin-left:28px;">
               <div class="form-group">
-                <input type="text" class="form-control" name="search" placeholder="Nhập vào giá trị tìm kiếm" value="<?php if($this->input->get('search')){ echo $this->input->get('search'); } ?>">
+                <input type="text" class="form-control" name="search" placeholder="Nhập vào giá trị tìm kiếm" value="<?php if ($this->input->get('search')) {
+                                                                                                                        echo $this->input->get('search');
+                                                                                                                      } ?>">
               </div>
               <button type="submit" class="btn btn-warning" id="btn-search">Tìm kiếm</button>
             </form>
+          </div>
+          <div class="col-sm-2">
+            <button class="btn btn-primary" id="addDeviceButton" style="margin-top: 8px;">Thêm mới</button>
           </div>
         </div>
         <table class="table table-striped">
@@ -103,10 +59,9 @@
             <tr>
               <th>STT</th>
               <th>Tên thiết bị</th>
-              <th>Phân loại</th>
+              <th>Số lượng</th>
               <th>Ngày mua</th>
               <th>Mô tả</th>
-              <th>Trạng thái</th>
               <th>Hành động</th>
             </tr>
           </thead>
@@ -118,7 +73,61 @@
     </div>
   </div>
 </div>
+<!-- modal add device -->
+<div class="modal fade" id="addDeviceModal" tabindex="-1" role="dialog" aria-labelledby="addDeviceModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="editDeviceModalLabel">Thêm mới Thiết Bị</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="deviceForm" class="form">
+          <div class="row form-row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="deviceName">Tên thiết bị</label>
+                <input type="text" class="form-control" id="deviceName" name="name" placeholder="Tên thiết bị mới" required>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="deviceDescription">Mô tả</label>
+                <textarea class="form-control" row="1" name="description" id="deviceDescription" placeholder="Mô tả thiết bị mới" required></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row form-row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="deviceDateBuy">Ngày mua thiết bị</label>
+                <input type="date" class="form-control" id="deviceDateBuy" name="date_buy" required>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="deviceActive">Trạng thái</label>
+                <select class="form-control" id="deviceActive" name="active" required>
+                  <option value="1">Đang hoạt động</option>
+                  <option value="0">Không hoạt động</option>
+                </select>
+              </div>
+            </div>
+           
+          </div>
 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+        <button type="submit" class="btn btn-primary" id="actionAddDevice">Lưu thay đổi</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- /// -->
 <!-- modal edit Device -->
 <div class="modal fade" id="editDeviceModal" tabindex="-1" role="dialog" aria-labelledby="editDeviceModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
@@ -130,7 +139,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form id="editDeviceForm">
+        <form id="editDeviceForm"  class="form">
           <div class="row form-row">
             <div class="col-sm-6">
               <div class="form-group">
@@ -139,34 +148,21 @@
               </div>
             </div>
             <div class="col-sm-6">
-              <div class="form-group">
-                <label for="deviceEditType">Phân loại</label>
-                <select class="form-control" id="deviceEditType" name="deviceEditType" required>
-                  <option value="">Chọn loại thiết bị</option>
-                  <option value="screen">Màn hình</option>
-                  <option value="cpu">CPU</option>
-                  <option value="mouse">Chuột</option>
-                  <option value="keyboard">Bàn phím</option>
-                  <option value="switch">Switch mạng</option>
-                </select>
+            <div class="form-group">
+                <label for="deviceEditDescription">Mô tả</label>
+                <textarea class="form-control" row="1" name="deviceEditDescription" id="deviceEditDescription" placeholder="Mô tả thiết bị mới" required></textarea>
               </div>
             </div>
           </div>
           <div class="row form-row">
             <div class="col-sm-6">
-              <div class="form-group">
-                <label for="deviceEditDescription">Mô tả</label>
-                <textarea class="form-control" row="1" name="deviceEditDescription" id="deviceEditDescription" placeholder="Mô tả thiết bị mới" required></textarea>
-              </div>
-            </div>
-            <div class="col-sm-3">
-              <div class="form-group">
+            <div class="form-group">
                 <label for="deviceEditDate">Ngày mua thiết bị</label>
                 <input type="date" class="form-control" id="deviceEditDate" name="deviceEditDate" required>
               </div>
             </div>
-            <div class="col-sm-3">
-              <div class="form-group">
+            <div class="col-sm-6">
+            <div class="form-group">
                 <label for="deviceEditActive">Trạng thái</label>
                 <select class="form-control" id="deviceEditActive" name="deviceEditActive" required>
                   <option value="1">Đang hoạt động</option>
@@ -180,7 +176,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-        <button type="button" class="btn btn-primary" id="saveDeviceChanges">Lưu thay đổi</button>
+        <button type="button" class="btn btn-primary" id="actionEditDevice">Lưu thay đổi</button>
       </div>
     </div>
   </div>
@@ -213,7 +209,6 @@
       let $row = $("<tr>");
       $row.append($("<td>").text(index + 1));
       $row.append($("<td class='deviceName'>").text(item.name));
-      $row.append($("<td class='deviceType'>").text(item.type));
       $row.append($("<td class='deviceDate'>").text(formatDateTable(item.date_buy)));
       $row.append($("<td class='deviceDescription'>").text(item.description));
       $row.append($("<td class='deviceActive'>").text(item.active == "1" ? "Đang hoạt động" : "Không hoạt động").addClass(item.active == "1" ? "text-success" : "text-danger"));
@@ -227,10 +222,10 @@
   }
 
 
-  function openEditModal(id, name, type, date, description, active) {
+  function openEditModal(id, name, date, description, active) {
     $('#deviceId').val(id);
     $('#deviceEditName').val(name);
-    $('#deviceEditType').val(type);
+    
     $('#deviceEditDate').val(date);
     $('#deviceEditDescription').val(description);
     $('#deviceEditActive').val(active);
@@ -258,6 +253,10 @@
     let allData = <?php echo json_encode($results); ?>;
     renderTable(allData); //render các dòng dữ liệu 
 
+    //Open modal add device
+    $("#addDeviceButton").on('click', function() {
+      $('#addDeviceModal').modal('show');
+    });
     //Create device
     $('#deviceForm').submit(function(event) {
       event.preventDefault();
@@ -272,6 +271,7 @@
           if (response.status) {
             alert(response.message);
             $('#deviceForm')[0].reset();
+            $('#addDeviceModal').modal('hide');
             loadTable(); //load lại bảng
           } else {
             alert(response.message);
@@ -289,7 +289,6 @@
       let $row = $(this).closest("tr");
       let id = $(this).data("id");
       let name = $row.find(".deviceName").text();
-      let type = $row.find(".deviceType").text();
       let date = $row.find(".deviceDate").text();
       let description = $row.find(".deviceDescription").text();
       let valActive = $row.find(".deviceActive").text();
@@ -299,7 +298,7 @@
       } else if (valActive === "Không hoạt động") {
         active = 0;
       }
-      openEditModal(id, name, type, formatDateModal(date), description, active);
+      openEditModal(id, name, formatDateModal(date), description, active);
     });
 
     //click delete
@@ -330,7 +329,7 @@
     });
 
     //update device
-    $('#saveDeviceChanges').click(function(event) {
+    $('#actionEditDevice').click(function(event) {
       event.preventDefault();
       let formData = $('#editDeviceForm').serialize();
       $.ajax({
@@ -364,13 +363,13 @@
         dataType: "json",
         success: function(response) {
           console.log(response);
-         /*  if (response.status) {
-            alert(response.message);
-            //load lại bảng
-            loadTable();
-          } else {
-            alert(response.message);
-          } */
+          /*  if (response.status) {
+             alert(response.message);
+             //load lại bảng
+             loadTable();
+           } else {
+             alert(response.message);
+           } */
         },
         error: function(xhr, status, error) {
           alert('Vui lòng thử lại, có lỗi xảy ra.');

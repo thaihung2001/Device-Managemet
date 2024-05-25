@@ -45,7 +45,8 @@ class BranchController extends CI_Controller
                     echo json_encode(array("status" => false, "message" => "Tên chi nhánh bị trùng! Vui lòng nhập tên khác")); 
                 }else{
                     if ($this->BranchModel->insertBranch($data)) {
-                        echo json_encode(array("status" => true, "message" => "Thêm thành công chi nhánh mới!"));
+                        $data['branchs']=$this->BranchModel->getBranch();
+                        echo json_encode(array("status" => true, "message" => "Thêm thành công chi nhánh mới!", "branchs" => $data['branchs']));
                     } else {
                         echo json_encode(array("status" => false, "message" => "Thêm thất bại!"));
                     }

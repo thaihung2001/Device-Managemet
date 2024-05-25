@@ -53,19 +53,30 @@ $route['default_controller'] = 'UserController';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+//User 
 $route['login']['get'] = 'UserController';
 $route['login']['post'] = 'UserController/checkLogin';
 $route['logout']['get'] = 'DashboardController/logout';
 
+//Dashboard => Inventory
 $route['dashboard']['get'] = 'DashboardController';
-$route['insertInventory']['post'] = 'DashboardController/insertInventory';
+$route['insertInventoryHistory']['post'] = 'DashboardController/insertInventoryHistory';
+//$route['updateInventory']['post'] = 'DashboardController/updateInventory';
+$route['getInventoryFromBranch']['get'] = 'DashboardController/getInventoryFromBranch';
+$route['revokeDeviceFromInventory']['post'] = 'DashboardController/revokeDeviceFromInventory';
 
+
+$route['barChart']['get'] = 'DashboardController/barChart';
+$route['pieChart']['get'] = 'DashboardController/pieChart';
+
+//Branch
 $route['branch']['get'] = 'BranchController';
 $route['loadBranch']['get'] = 'BranchController/loadBranch';
 $route['insertBranch']['post'] = 'BranchController/insertBranch';
 $route['updateBranch']['post'] = 'BranchController/updateBranch';
 $route['deleteBranch']['delete'] = 'BranchController/deleteBranch';
 
+//Device
 $route['device']['get'] = 'DeviceController';
 $route['loadDevice']['get'] = 'DeviceController/loadDevice';
 $route['insertDevice']['post'] = 'DeviceController/insertDevice';

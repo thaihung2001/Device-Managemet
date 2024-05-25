@@ -82,21 +82,19 @@ class DeviceController extends CI_Controller
     {
         if ($this->input->method() === 'post') {
             $this->form_validation->set_rules('name', 'Device Name', 'required');
-            $this->form_validation->set_rules('type', 'Device Type', 'required');
             $this->form_validation->set_rules('description', 'Description', 'required');
             $this->form_validation->set_rules('date_buy', 'Date of Purchase', 'required');
             $this->form_validation->set_rules('active', 'Active', 'required');
-
             if ($this->form_validation->run() == TRUE) {
                 $data = array(
                     'name' => $this->input->post('name'),
-                    'type' => $this->input->post('type'),
                     'description' => $this->input->post('description'),
                     'date_buy' => $this->input->post('date_buy'),
-                    'active' => $this->input->post('active')
+                    'active' => $this->input->post('active'),
                 );
                 if ($this->DeviceModel->insertDevice($data)) {
-                    echo json_encode(array("status" => true, "message" => "Thêm thiết bị mới thành công!"));
+                    $data['devices']=$this->DeviceModel->getDevice();
+                    echo json_encode(array("status" => true, "message" => "Thêm thiết bị mới thành công!", "devices"=>$data['devices']));
                 } else {
                     echo json_encode(array("status" => false, "message" => "Thêm thiết bị thất bại!"));
                 }
@@ -110,20 +108,19 @@ class DeviceController extends CI_Controller
         if ($this->input->method() === 'post') {
             $this->form_validation->set_rules('deviceId', 'Id', 'trim|required');
             $this->form_validation->set_rules('deviceEditName', 'Device Name', 'required');
-            $this->form_validation->set_rules('deviceEditType', 'Device Type', 'required');
+            
             $this->form_validation->set_rules('deviceEditDescription', 'Description', 'required');
             $this->form_validation->set_rules('deviceEditDate', 'Date of Purchase', 'required');
             $this->form_validation->set_rules('deviceEditActive', 'Active', 'required');
             if ($this->form_validation->run() == TRUE) {
                 $id = $this->input->post('deviceId');
                 $name = $this->input->post('deviceEditName');
-                $type = $this->input->post('deviceEditType');
+                
                 $date = $this->input->post('deviceEditDate');
                 $description = $this->input->post('deviceEditDescription');
                 $active = $this->input->post('deviceEditActive');
                 $data = array(
                     'name' => $name,
-                    'type' => $type,
                     'description' => $description,
                     'date_buy' => $date,
                     'active' => $active,

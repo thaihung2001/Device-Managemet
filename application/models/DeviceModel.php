@@ -38,26 +38,13 @@ class DeviceModel  extends CI_Model
     {
         return $this->db->where('active', 1)->count_all_results('device');
     }
-    public function getDevice($limit = null, $offset = 0, $unique = false)
+    public function getDevice($limit = null, $offset = 0)
     {
         $this->db->order_by('id', 'DESC');
 
         if ($limit !== null) {
             $this->db->limit($limit, $offset);
         }
-
-        if ($unique === true) {
-            $this->db->select('device_id');
-            $this->db->distinct();
-            $query = $this->db->get('inventory');
-
-            if ($query->num_rows() > 0) {
-                $id_device_inventory = $query->result_array();
-                $id_device_inventory_array = array_column($id_device_inventory, 'device_id');
-                $this->db->where_not_in('id', $id_device_inventory_array);
-            }
-        }
-
         $query = $this->db->get('device');
 
         if ($query->num_rows() > 0) {
@@ -78,5 +65,17 @@ class DeviceModel  extends CI_Model
         }
         $query = $this->db->get('device');
         return $query->result_array();
+    }
+    function pieChart() 
+    {
+        $this->db->select('type, COUNT(*) as count');
+        $this->db->from('device');
+        $this->db->group_by('type');
+        $query = $this->db->get();
+        if($query->num_rows() > 0){
+            return $query->result_array();
+        } else {
+            return false;
+        }
     }
 }
