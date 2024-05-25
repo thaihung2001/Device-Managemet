@@ -93,9 +93,9 @@ class InventoryModel  extends CI_Model
             } else {
                 // thêm mới vào bảng inventory
                 $data_inventory = array(
-                    'device_id' => $data_inventory_history['device_id'],
-                    'branch_id' => $data_inventory_history['branch_id_recieve'],
-                    'quantity' => $data_inventory_history['quantity'],
+                    'device_id' => $data_import_export['device_id'],
+                    'branch_id' => $data_import_export['branch_id_recieve'],
+                    'quantity' => $data_import_export['quantity'],
                     'status' => $data['status'],
                 );
                 $this->db->insert('inventory', $data_inventory);
