@@ -13,7 +13,7 @@ class InventoryModel  extends CI_Model
             'note' => '',
             'created_by' => $data['created_by'],
         );
-        $this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;');
+        //$this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;');
         $this->db->trans_start();
 
         //thêm mới vào bảng inventory_history
@@ -64,7 +64,7 @@ class InventoryModel  extends CI_Model
             'note' => $data['note'],
             'created_by' => $data['created_by'],
         );
-        $this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;');
+        //$this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;');
         $this->db->trans_start();
         //kiểm tra sự tồn tại của chi nhánh và thiết bị cấp đi trong bảng inventory
         $this->db->select('*');
