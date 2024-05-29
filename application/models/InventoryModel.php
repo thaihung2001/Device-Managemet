@@ -78,7 +78,7 @@ class InventoryModel  extends CI_Model
 
             //khóa hàng update số lượng gửi 
             $this->db->query("SELECT * FROM inventory WHERE device_id = ? AND branch_id = ? FOR UPDATE", array($data_import_export['device_id'], $data_import_export['branch_id_send']));
-            //sleep(5);
+            sleep(30);
 
             //trừ số lượng  nơi gửi
             $this->db->set('quantity', 'quantity - ' . (int) $data_import_export['quantity'], FALSE);
